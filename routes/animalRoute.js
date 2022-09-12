@@ -1,6 +1,5 @@
 import express from 'express'
 import {
-  createAnimal,
   getAllAnimals,
   getAnimalById,
   deleteAnimalById,
@@ -9,9 +8,6 @@ import {
 } from '../controller/animalController.js'
 
 const router = express.Router()
-
-//CREATE USER
-router.post('/create', createAnimal)
 
 router.get('/get', getAllAnimals)
 

@@ -2,6 +2,7 @@ import express from 'express'
 import mongoose from 'mongoose'
 import dotenv from 'dotenv'
 import animalRoute from './routes/animalRoute.js'
+import authRoute from './routes/authRoute.js'
 
 const app = express()
 const port = 3001
@@ -19,7 +20,11 @@ const connectionToDB = async () => {
   }
 }
 
+//USER
 app.use('/api', animalRoute)
+
+//AUTH
+app.use('/api', authRoute)
 
 app.listen(port, () => {
   connectionToDB()

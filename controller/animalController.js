@@ -1,22 +1,4 @@
 import animalModel from '../models/animalModel.js'
-import bcrypt from 'bcrypt'
-
-//CREATE Animal
-export const createAnimal = async (req, res) => {
-  try {
-    const salt = bcrypt.genSaltSync(10)
-    const hash = bcrypt.hashSync(req.body.password, salt)
-    const newAnimal = new animalModel({
-      ...req.body,
-      password: hash,
-    })
-    await newAnimal.save()
-    res.status(201).send('New animal is created')
-  } catch (error) {
-    res.status(405).send(error)
-    console.error(error)
-  }
-}
 
 //GET ALL Animals
 export const getAllAnimals = async (req, res) => {
@@ -44,7 +26,7 @@ export const getAnimalById = async (req, res) => {
 //DELETE Animal BY ID
 export const deleteAnimalById = async (req, res) => {
   try {
-    await animalModel.deleteMany(req.params.id)
+    await animalModel.findByIdAndDelete(req.params.id)
     res.status(200).json(`The animal is deleted!`)
   } catch (error) {
     res.status(405).send(error)
