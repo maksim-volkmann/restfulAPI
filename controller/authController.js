@@ -36,7 +36,15 @@ export const loginAnimal = async (req, res) => {
       return res.status(404).send('Animal email or password is wrong!')
     }
 
-    return res.status(201).send('Successfully logged in!')
+    const token = jwt.sign({ id: animal._id }, process.env.JWT_SECRET, {
+      expiresIn: '1 day',
+    })
+
+    res.cookie(`session_token`, token, {
+      httpOnly: true,
+    })
+
+    return res.status(201).send(`Successfully logged in! ${token}`)
   } catch (error) {
     res.status(405).send(error)
     console.error(error)
