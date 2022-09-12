@@ -17,3 +17,12 @@ export const createAnimal = async (req, res) => {
     console.error(error)
   }
 }
+
+export const loginAnimal = async (req, res) => {
+  try {
+    res.status(201).send('Successfully logged in!')
+  } catch (error) {
+    res.status(405).send(error)
+    console.error(error)
+  }
+}
