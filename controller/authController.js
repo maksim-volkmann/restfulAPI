@@ -1,5 +1,6 @@
 import bcrypt from 'bcrypt'
 import animalModel from '../models/animalModel.js'
+import jwt from 'jsonwebtoken'
 
 //CREATE Animal
 export const createAnimal = async (req, res) => {
@@ -20,7 +21,22 @@ export const createAnimal = async (req, res) => {
 
 export const loginAnimal = async (req, res) => {
   try {
-    res.status(201).send('Successfully logged in!')
+    const animal = await animalModel.findOne({ email: req.body.email })
+
+    if (!animal) {
+      return res.status(404).send('Animal email or password is wrong!')
+    }
+
+    const isPasswordCorrect = await bcrypt.compare(
+      req.body.password,
+      animal.password,
+    )
+
+    if (!isPasswordCorrect) {
+      return res.status(404).send('Animal email or password is wrong!')
+    }
+
+    return res.status(201).send('Successfully logged in!')
   } catch (error) {
     res.status(405).send(error)
     console.error(error)
